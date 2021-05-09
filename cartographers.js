@@ -13,15 +13,15 @@ const overlayMapCells = () => {
 
     /* Clean all previous cells */
     previousCells.forEach(previousCell => {
-        map.children[previousCell].style.backgroundColor = 'transparent'
+        map.children[previousCell].classList.remove('overlay')
     })
 
     playerCells.forEach(playerCell => {
-        playerCell.style.backgroundColor = 'transparent'
+        playerCell.classList.remove('overlay')
         cell = getOverlayedCell(playerCell, map) 
         if (cell) {
-            map.children[cell].style.backgroundColor = 'red'
-            playerCell.style.backgroundColor = 'yellow'
+            map.children[cell].classList.add('overlay')
+            playerCell.classList.add('overlay')
             new_previous_cells.push(cell)
         }
     });
@@ -59,7 +59,6 @@ const extractCells = (containerElt) => {
 const onMouseMove = (e) =>{
     player.style.left = e.pageX + 'px';
     player.style.top = e.pageY + 'px';
-    overlayMapCells();
 }
 
 const onKeyUp = (event) => {
@@ -73,14 +72,23 @@ const rotateElement = (element) => {
     element.style.transform  = 'translate(-50%, -50%) rotate('+playerRotation+'deg)'
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+const initGlobalVariables = () => {
     player = document.getElementById('player')
     map = document.getElementById('map')    
     playerCells = extractCells(player)
+}
 
+const initEvents = () => {
     document.addEventListener('mousemove', onMouseMove)
+    document.addEventListener('mousemove', overlayMapCells)
     document.addEventListener("keyup", onKeyUp)
-    player.addEventListener("transitionend", overlayMapCells);
 
-  });
+    player.addEventListener("transitionend", overlayMapCells);
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    initGlobalVariables()
+    initEvents()
+});
 

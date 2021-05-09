@@ -1,5 +1,5 @@
 body {
-    margin: 0; /* pour éviter les marges */
+    margin: 0;
   }
 
 .grid-container {
@@ -8,16 +8,44 @@ body {
     align-content: content;    
 }
 
+
+.grid-item {
+    display: grid;
+    justify-content: center;
+    align-content: center;    
+    border: 1px dotted red;
+    opacity: 0.50;
+    
+}
+
+/* Montagne */
+#map .grid-item:nth-child(15)::before,
+#map .grid-item:nth-child(31)::before,
+#map .grid-item:nth-child(61)::before,
+#map .grid-item:nth-child(91)::before,
+#map .grid-item:nth-child(107)::before
+ {
+    content: 'M';
+}
+
+/* Ruine */
+#map .grid-item:nth-child(17)::before,
+#map .grid-item:nth-child(24)::before,
+#map .grid-item:nth-child(32)::before,
+#map .grid-item:nth-child(90)::before,
+#map .grid-item:nth-child(98)::before,
+#map .grid-item:nth-child(105)::before
+ {
+    content: 'R';
+}
+
+
 #map {
     margin-left: auto;
     margin-right: auto;
     width: 440px;
 }
 
-#cells {
-    width: 500px;
-    background-color: green;
-}
 
 #map.grid-container {
     grid-template-columns: repeat(11, 40px);
@@ -25,41 +53,26 @@ body {
 
 }
 
-#player.grid-container {
-    grid-template-columns: repeat(2, 40px);
-    grid-template-rows: repeat(2, 40px);
+#map .grid-item.overlay{
+    background-color: green;
+}
+
+.grid-item.reset{
+    background-color: transparent;
+}
+
+#player {
     position:absolute;
     transform:translate(-50%,-50%);
     transition: transform 0.07s ease-in-out; 
+
 }
 
-.grid-item {
-    display: grid;
-    justify-content: center;
-    align-content: center;    
-    border: 1px dotted red; 
-    
+#player.grid-container {
+    grid-template-columns: repeat(2, 40px);
+    grid-template-rows: repeat(2, 40px);    
 }
 
-
-
-/* Montagne */
-.grid-item:nth-child(15)::before,
-.grid-item:nth-child(31)::before,
-.grid-item:nth-child(61)::before,
-.grid-item:nth-child(91)::before,
-.grid-item:nth-child(107)::before
- {
-    content: 'M';
-}
-
-/* Ruine */
-.grid-item:nth-child(17)::before,
-.grid-item:nth-child(24)::before,
-.grid-item:nth-child(32)::before,
-.grid-item:nth-child(90)::before,
-.grid-item:nth-child(98)::before,
-.grid-item:nth-child(105)::before
- {
-    content: 'R';
+#player .grid-item.overlay{
+    background-color: yellow;
 }
