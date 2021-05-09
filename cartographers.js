@@ -1,27 +1,30 @@
 let player
+let playerPreviousColor
+let playerColor
 let map
 
+
+let colors = ['foret', 'village', 'champs', 'eau', 'monstre']
 let playerRotation = 0
 let playerCells = []
 let previousCells = []
 let cellSize = 40
-
-
 
 const overlayMapCells = () => {
     new_previous_cells = []
 
     /* Clean all previous cells */
     previousCells.forEach(previousCell => {
+        map.children[previousCell].classList.remove(playerPreviousColor)
+        map.children[previousCell].classList.remove(playerColor)
         map.children[previousCell].classList.remove('overlay')
     })
 
     playerCells.forEach(playerCell => {
-        playerCell.classList.remove('overlay')
         cell = getOverlayedCell(playerCell, map) 
         if (cell) {
+            map.children[cell].classList.add(playerColor)
             map.children[cell].classList.add('overlay')
-            playerCell.classList.add('overlay')
             new_previous_cells.push(cell)
         }
     });
@@ -65,6 +68,19 @@ const onKeyUp = (event) => {
     if (event.code === 'KeyR') {
         rotateElement(player)
     }
+
+    if (event.code === 'KeyC') {
+        
+        let index = colors.indexOf(playerColor)
+        
+        if (index ==  colors.length - 1) {
+            index = 0
+        } else {
+            index += 1
+        }
+        
+        setPlayerColor(colors[index])
+    }    
 }
 
 const rotateElement = (element) => {
@@ -86,9 +102,29 @@ const initEvents = () => {
     player.addEventListener("transitionend", overlayMapCells);
 }
 
-document.addEventListener("DOMContentLoaded", () => {
 
+const setPlayerColor = (color) => {
+
+    /* remove all existing colors */
+    if (playerPreviousColor) {
+        playerCells.forEach(cell => {
+            cell.classList.remove(playerPreviousColor)
+        })
+    }
+
+    
+
+    playerPreviousColor = playerColor
+    playerColor = color
+
+    playerCells.forEach(cell => {
+        cell.classList.remove(playerPreviousColor)
+        cell.classList.add(color)
+    })
+}
+document.addEventListener("DOMContentLoaded", () => {
     initGlobalVariables()
     initEvents()
+    setPlayerColor('eau')
 });
 

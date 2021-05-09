@@ -13,21 +13,52 @@ body {
     display: grid;
     justify-content: center;
     align-content: center;    
-    border: 1px dotted red;
-    opacity: 0.50;
-    
+    border: 1px dotted grey;
 }
 
-/* Montagne */
-#map .grid-item:nth-child(15)::before,
-#map .grid-item:nth-child(31)::before,
-#map .grid-item:nth-child(61)::before,
-#map .grid-item:nth-child(91)::before,
-#map .grid-item:nth-child(107)::before
- {
-    content: 'M';
+.grid-item .reset{
+    background-color: transparent;
 }
 
+.grid-item.foret {
+    background-image: url(/assets/foret.png);
+    background-size: cover;
+}
+
+.grid-item.village {
+    background-image: url(/assets/village.png);
+    background-size: cover;
+}
+
+.grid-item.champs {
+    background-image: url(/assets/champs.png);
+    background-size: cover;
+}
+
+.grid-item.eau {
+    background-image: url(/assets/eau.png);
+    background-size: contain;
+}
+
+.grid-item.monstre {
+    background-image: url(/assets/monstre.png);
+    background-size: contain;
+}
+
+.grid-item.montagne {
+    background-image: url(/assets/montagne.png);
+    background-size: contain;
+}
+
+.grid-item.overlay {
+    opacity: 0.5;
+}
+
+
+
+/***********************************************/
+/* MAP CSS
+/***********************************************/
 /* Ruine */
 #map .grid-item:nth-child(17)::before,
 #map .grid-item:nth-child(24)::before,
@@ -53,13 +84,15 @@ body {
 
 }
 
-#map .grid-item.overlay{
-    background-color: green;
+#map .grid-item.overlay {
+    opacity: 0.50;
 }
 
-.grid-item.reset{
-    background-color: transparent;
-}
+
+
+/***********************************************/
+/* PLAYER CSS
+/***********************************************/
 
 #player {
     position:absolute;
@@ -73,6 +106,19 @@ body {
     grid-template-rows: repeat(2, 40px);    
 }
 
-#player .grid-item.overlay{
-    background-color: yellow;
+#player.grid-container > .grid-item {
+    border: transparent;
+    transition: background-image .25s ease-in-out;    
+}
+
+/***********************************************/
+/* LEGEND CSS
+/***********************************************/
+#legend {
+    float: left;
+}
+
+#legend.grid-container {
+    grid-template-columns: 40px 150px;
+    grid-template-rows: repeat(8, 40px);    
 }
