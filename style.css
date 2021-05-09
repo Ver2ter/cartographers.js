@@ -1,0 +1,64 @@
+body {
+    margin: 0; /* pour éviter les marges */
+  }
+
+.grid-container {
+    display: grid;
+    justify-content: content;
+    align-content: content;    
+}
+
+#map {
+    margin-left: auto;
+    margin-right: auto;
+    width: 440px;
+}
+
+#cells {
+    width: 500px;
+    background-color: green;
+}
+
+#map.grid-container {
+    grid-template-columns: repeat(11, 40px);
+    grid-template-rows: repeat(11, 40px);
+
+}
+
+#player.grid-container {
+    grid-template-columns: repeat(2, 40px);
+    grid-template-rows: repeat(2, 40px);
+    position:absolute;
+    transform:translate(-50%,-50%);
+}
+
+.grid-item {
+    display: grid;
+    justify-content: center;
+    align-content: center;    
+    border: 1px dotted red;
+    
+}
+
+
+
+/* Montagne */
+.grid-item:nth-child(15)::before,
+.grid-item:nth-child(31)::before,
+.grid-item:nth-child(61)::before,
+.grid-item:nth-child(91)::before,
+.grid-item:nth-child(107)::before
+ {
+    content: 'M';
+}
+
+/* Ruine */
+.grid-item:nth-child(17)::before,
+.grid-item:nth-child(24)::before,
+.grid-item:nth-child(32)::before,
+.grid-item:nth-child(90)::before,
+.grid-item:nth-child(98)::before,
+.grid-item:nth-child(105)::before
+ {
+    content: 'R';
+}
