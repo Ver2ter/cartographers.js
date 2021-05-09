@@ -8,26 +8,25 @@ let cellSize = 40
 
 
 const isOverlay = (playerCells, map) => {
-    /*
-    if (previousCells) {
-        map.children[previousCells].style.backgroundColor = 'transparent'
-    }
-    previousCells = cellNum
-    else {
-        if (previousCells >= 0) {
-            map.children[previousCells].style.backgroundColor = 'transparent'
-            cell.style.backgroundColor = 'transparent'
-        } 
-    }
-*/
+    new_previous_cells = []
+
+    /* Clean all previous cells */
+    previousCells.forEach(previousCell => {
+        map.children[previousCell].style.backgroundColor = 'transparent'
+    })
+
     playerCells.forEach(playerCell => {
         cell = getOverlayedCell(playerCell, map) 
         if (cell) {
             map.children[cell].style.backgroundColor = 'red'
             playerCell.style.backgroundColor = 'yellow'
+            new_previous_cells.push(cell)
         }
-
     });
+
+    previousCells = new_previous_cells
+
+    
     
 }
 
