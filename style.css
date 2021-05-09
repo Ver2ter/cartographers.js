@@ -30,13 +30,14 @@ body {
     grid-template-rows: repeat(2, 40px);
     position:absolute;
     transform:translate(-50%,-50%);
+    transition: transform 0.07s ease-in-out; 
 }
 
 .grid-item {
     display: grid;
     justify-content: center;
     align-content: center;    
-    border: 1px dotted red;
+    border: 1px dotted red; 
     
 }
 

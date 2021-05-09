@@ -1,13 +1,14 @@
 let player
 let map
 
+let playerRotation = 0
 let playerCells = []
 let previousCells = []
 let cellSize = 40
 
 
 
-const isOverlay = (playerCells, map) => {
+const overlayMapCells = () => {
     new_previous_cells = []
 
     /* Clean all previous cells */
@@ -16,6 +17,7 @@ const isOverlay = (playerCells, map) => {
     })
 
     playerCells.forEach(playerCell => {
+        playerCell.style.backgroundColor = 'transparent'
         cell = getOverlayedCell(playerCell, map) 
         if (cell) {
             map.children[cell].style.backgroundColor = 'red'
@@ -26,8 +28,6 @@ const isOverlay = (playerCells, map) => {
 
     previousCells = new_previous_cells
 
-    
-    
 }
 
 const getOverlayedCell = (cell, map) => {
@@ -59,16 +59,28 @@ const extractCells = (containerElt) => {
 const onMouseMove = (e) =>{
     player.style.left = e.pageX + 'px';
     player.style.top = e.pageY + 'px';
-
-    isOverlay(playerCells, document.getElementById('map'));        
+    overlayMapCells();
 }
 
+const onKeyUp = (event) => {
+    if (event.code === 'KeyR') {
+        rotateElement(player)
+    }
+}
+
+const rotateElement = (element) => {
+    playerRotation += 90
+    element.style.transform  = 'translate(-50%, -50%) rotate('+playerRotation+'deg)'
+}
 
 document.addEventListener("DOMContentLoaded", () => {
     player = document.getElementById('player')
     map = document.getElementById('map')    
-    
     playerCells = extractCells(player)
-    mapCells = extractCells(map)
+
     document.addEventListener('mousemove', onMouseMove)
+    document.addEventListener("keyup", onKeyUp)
+    player.addEventListener("transitionend", overlayMapCells);
+
   });
+
