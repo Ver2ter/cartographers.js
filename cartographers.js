@@ -1,44 +1,49 @@
-let player
+let mapContent = new Array(121)
+let mapElement
+let mapId = 'map'
+
+let playerId = 'player'
+let playerElement
+let playerCellPositions = []
 let playerPreviousColor
 let playerColor
-let map
 
 
 let colors = ['foret', 'village', 'champs', 'eau', 'monstre']
+let montagnes = [14, 30, 60, 90, 106]
+let ruines = [17, 24, 32, 90, 98, 105]
 let playerRotation = 0
 let playerCells = []
 let previousCells = []
 let cellSize = 40
 
 const overlayMapCells = () => {
-    new_previous_cells = []
 
     /* Clean all previous cells */
-    previousCells.forEach(previousCell => {
-        map.children[previousCell].classList.remove(playerPreviousColor)
-        map.children[previousCell].classList.remove(playerColor)
-        map.children[previousCell].classList.remove('overlay')
+    playerCellPositions.filter(Boolean).forEach(previousCell => {
+        mapElement.children[previousCell].classList.remove(playerPreviousColor)
+        mapElement.children[previousCell].classList.remove(playerColor)
+        mapElement.children[previousCell].classList.remove('overlay')
     })
 
-    playerCells.forEach(playerCell => {
-        cell = getOverlayedCell(playerCell, map) 
+    playerCellPositions = []    
+
+    playerCells.forEach(playerCell => {    
+        playerCellPositions.push(cell = getOverlayedCell(playerCell, mapElement) )
         if (cell) {
-            map.children[cell].classList.add(playerColor)
-            map.children[cell].classList.add('overlay')
-            new_previous_cells.push(cell)
+            mapElement.children[cell].classList.add(playerColor)
+            mapElement.children[cell].classList.add('overlay')
         }
     });
 
-    previousCells = new_previous_cells
-
 }
 
-const getOverlayedCell = (cell, map) => {
+const getOverlayedCell = (cell, mapElement) => {
     var playerCell = cell.getBoundingClientRect()
-    var mapCell = map.getBoundingClientRect()
+    var mapElementCell = mapElement.getBoundingClientRect()
 
-    var x = Math.trunc((playerCell.left - mapCell.left) / cellSize)
-    var y = Math.trunc((playerCell.top - mapCell.top) / cellSize)
+    var x = Math.trunc((playerCell.left - mapElementCell.left) / cellSize)
+    var y = Math.trunc((playerCell.top - mapElementCell.top) / cellSize)
     var cellNum = y * 11 + x
     
     if ( x >= 0 && x <= 10 && y >= 0 && y <= 10 && cellNum >= 0) {
@@ -60,13 +65,13 @@ const extractCells = (containerElt) => {
 
 
 const onMouseMove = (e) =>{
-    player.style.left = e.pageX + 'px';
-    player.style.top = e.pageY + 'px';
+    playerElement.style.left = e.pageX + 'px';
+    playerElement.style.top = e.pageY + 'px';
 }
 
 const onKeyUp = (event) => {
     if (event.code === 'KeyR') {
-        rotateElement(player)
+        rotateElement(playerElement)
     }
 
     if (event.code === 'KeyC') {
@@ -89,9 +94,9 @@ const rotateElement = (element) => {
 }
 
 const initGlobalVariables = () => {
-    player = document.getElementById('player')
-    map = document.getElementById('map')    
-    playerCells = extractCells(player)
+    playerElement = document.getElementById(playerId)
+    mapElement = document.getElementById(mapId)
+    playerCells = extractCells(playerElement)
 }
 
 const initEvents = () => {
@@ -99,7 +104,7 @@ const initEvents = () => {
     document.addEventListener('mousemove', overlayMapCells)
     document.addEventListener("keyup", onKeyUp)
 
-    player.addEventListener("transitionend", overlayMapCells);
+    playerElement.addEventListener("transitionend", overlayMapCells);
 }
 
 
@@ -112,8 +117,6 @@ const setPlayerColor = (color) => {
         })
     }
 
-    
-
     playerPreviousColor = playerColor
     playerColor = color
 
@@ -122,7 +125,31 @@ const setPlayerColor = (color) => {
         cell.classList.add(color)
     })
 }
+
+const buildMap = () => {
+    mapElement = document.getElementById(mapId)
+
+    // Build full mapElement
+    for(var i = 0; i < 121; i++){
+        var c = document.createElement('div')
+        c.classList.add("grid-item")
+        mapElement.appendChild(c)
+    }
+
+    // build  montagnes
+    montagnes.forEach(m => {
+        mapElement.children[m].classList.add("montagne")
+    })
+
+    // build  ruine
+    ruines.forEach(m => {
+        mapElement.children[m].classList.add("ruine")
+    })
+}
+
+
 document.addEventListener("DOMContentLoaded", () => {
+    buildMap()
     initGlobalVariables()
     initEvents()
     setPlayerColor('eau')
