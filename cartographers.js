@@ -18,15 +18,20 @@ let previousCells = []
 let cellSize = 40
 
 const overlayMapCells = () => {
-
-    /* Clean all previous cells */
+   
+    // Clean all previous cells 
+    // (only if a color is not already set on the map)
     playerCellPositions.filter(Boolean).forEach(previousCell => {
-        mapElement.children[previousCell].classList.remove(playerPreviousColor)
-        mapElement.children[previousCell].classList.remove(playerColor)
+        if (!mapContent[previousCell]) {
+            mapElement.children[previousCell].classList.remove(playerPreviousColor)
+            mapElement.children[previousCell].classList.remove(playerColor)            
+        }
         mapElement.children[previousCell].classList.remove('overlay')
     })
 
-    playerCellPositions = []    
+    playerCellPositions = []
+    playerCells.forEach(c => c.classList.remove("forbidden"))
+    playerCells.forEach(c => c.classList.remove("allowed"))
 
     playerCells.forEach(playerCell => {    
         playerCellPositions.push(cell = getOverlayedCell(playerCell, mapElement) )
@@ -36,7 +41,19 @@ const overlayMapCells = () => {
         }
     });
 
+    if (isPlayerAllowed()) {
+        playerCells.forEach(c => c.classList.add("allowed"))
+    } else {
+        playerCells.forEach(c => c.classList.add("forbidden"))
+    }
+
 }
+
+const isPlayerAllowed = () => {
+    return mapContent.filter(Boolean).length == 0 ||
+           playerCellPositions.filter(Boolean).every(c => mapContent[c] == null)
+}
+
 
 const getOverlayedCell = (cell, mapElement) => {
     var playerCell = cell.getBoundingClientRect()
@@ -69,6 +86,18 @@ const onMouseMove = (e) =>{
     playerElement.style.top = e.pageY + 'px';
 }
 
+
+// If all cells of the player overlayed the map
+// then we set the color of the map's cells
+const onMouseUp = (e) =>{
+    if (playerCellPositions.filter(Boolean).length == playerCells.length && isPlayerAllowed()) {
+        playerCellPositions.forEach(cell => {
+            mapContent[cell] = playerColor
+            mapElement.children[cell].classList.add(playerColor)
+        })        
+    }
+}
+
 const onKeyUp = (event) => {
     if (event.code === 'KeyR') {
         rotateElement(playerElement)
@@ -92,21 +121,6 @@ const rotateElement = (element) => {
     playerRotation += 90
     element.style.transform  = 'translate(-50%, -50%) rotate('+playerRotation+'deg)'
 }
-
-const initGlobalVariables = () => {
-    playerElement = document.getElementById(playerId)
-    mapElement = document.getElementById(mapId)
-    playerCells = extractCells(playerElement)
-}
-
-const initEvents = () => {
-    document.addEventListener('mousemove', onMouseMove)
-    document.addEventListener('mousemove', overlayMapCells)
-    document.addEventListener("keyup", onKeyUp)
-
-    playerElement.addEventListener("transitionend", overlayMapCells);
-}
-
 
 const setPlayerColor = (color) => {
 
@@ -145,6 +159,22 @@ const buildMap = () => {
     ruines.forEach(m => {
         mapElement.children[m].classList.add("ruine")
     })
+}
+
+
+const initGlobalVariables = () => {
+    playerElement = document.getElementById(playerId)
+    mapElement = document.getElementById(mapId)
+    playerCells = extractCells(playerElement)
+}
+
+const initEvents = () => {
+    document.addEventListener('mousemove', onMouseMove)
+    document.addEventListener('mouseup', onMouseUp)
+    document.addEventListener('mousemove', overlayMapCells)
+    document.addEventListener("keyup", onKeyUp)
+
+    playerElement.addEventListener("transitionend", overlayMapCells);
 }
 
 
