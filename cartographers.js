@@ -35,7 +35,7 @@ const overlayMapCells = () => {
 
     playerCells.forEach(playerCell => {    
         playerCellPositions.push(cell = getOverlayedCell(playerCell, mapElement) )
-        if (cell) {
+        if (cell && !mapContent[cell]) {
             mapElement.children[cell].classList.add(playerColor)
             mapElement.children[cell].classList.add('overlay')
         }
