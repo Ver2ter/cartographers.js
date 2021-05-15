@@ -2,6 +2,10 @@ let mapContent = new Array(121)
 let mapElement
 let mapId = 'map'
 
+let goldenMountainContent = new Array(14)
+let goldenMountainElement
+let goldenMountainId = 'golden-mountain'
+
 let playerId = 'player'
 let playerElement
 let playerCellPositions = []
@@ -142,23 +146,22 @@ const setPlayerColor = (color) => {
 
 const buildMap = () => {
     mapElement = document.getElementById(mapId)
+    goldenMountainElement = document.getElementById(goldenMountainId)
 
     // Build full mapElement
-    for(var i = 0; i < 121; i++){
-        var c = document.createElement('div')
+    for(let i = 0; i < mapContent.length; i++){
+        let c = document.createElement('div')
         c.classList.add("grid-item")
         mapElement.appendChild(c)
     }
 
-    // build  montagnes
-    montagnes.forEach(m => {
-        mapElement.children[m].classList.add("montagne")
-    })
+    // Build full goldenMountainElement
+    for(let i = 0; i < goldenMountainContent.length; i++){
+        let c = document.createElement('div')
+        c.classList.add("grid-item")
+        goldenMountainElement.appendChild(c)
+    }
 
-    // build  ruine
-    ruines.forEach(m => {
-        mapElement.children[m].classList.add("ruine")
-    })
 }
 
 

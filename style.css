@@ -1,19 +1,26 @@
+@font-face {
+    font-family: 'Conamore Regular';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Conamore Regular'), url('./assets/fonts/Conamore-Regular.woff') format('woff');
+}
+
 body {
     margin: 0;
+    background-color: #161210;
+    color: white;
+    font-family:'Conamore Regular'
   }
 
 .grid-container {
     display: grid;
-    justify-content: content;
-    align-content: content;    
 }
 
 
 .grid-item {
     display: grid;
     justify-content: center;
-    align-content: center;    
-    border: 1px dotted grey;
+    align-content: center;
 }
 
 .grid-item .reset{
@@ -21,37 +28,37 @@ body {
 }
 
 .grid-item.foret {
-    background-image: url(/assets/foret.png);
+    background-image: url(./assets/foret.png);
     background-size: cover;
 }
 
 .grid-item.village {
-    background-image: url(/assets/village.png);
+    background-image: url(./assets/village.png);
     background-size: cover;
 }
 
 .grid-item.champs {
-    background-image: url(/assets/champs.png);
+    background-image: url(./assets/champs.png);
     background-size: cover;
 }
 
 .grid-item.eau {
-    background-image: url(/assets/eau.png);
+    background-image: url(./assets/eau.png);
     background-size: contain;
 }
 
 .grid-item.monstre {
-    background-image: url(/assets/monstre.png);
+    background-image: url(./assets/monstre.png);
     background-size: contain;
 }
 
 .grid-item.montagne {
-    background-image: url(/assets/montagne.png);
+    background-image: url(./assets/montagne.png);
     background-size: contain;
 }
 
 .grid-item.ruine {
-    background-image: url(/assets/ruine.png);
+    background-image: url(./assets/ruine.png);
     background-size: contain;
 }
 
@@ -64,24 +71,48 @@ body {
 /***********************************************/
 /* MAP CSS
 /***********************************************/
-#map {
+
+#map-container {
+    background-image: url("assets/map.png");
+    background-repeat: no-repeat;
+    background-size: 600px;
     margin-left: auto;
     margin-right: auto;
-    width: 440px;
+    width: 600px;
+    height: 800px;
 }
 
 
 #map.grid-container {
-    grid-template-columns: repeat(11, 40px);
-    grid-template-rows: repeat(11, 40px);
-
+    position: relative;
+    top: 179px;
+    left: 63px;
+    grid-template-columns: repeat(11, 43px);
+    grid-template-rows: repeat(11, 43px);
+    opacity: 1;
 }
 
 #map .grid-item.overlay {
-    opacity: 0.50;
+    opacity: 0.5;
 }
 
+/***********************************************/
+/* MAP CSS
+/***********************************************/
 
+#golden-mountain.grid-container {
+    position: relative;
+    top: 225px;
+    left: 105px;
+    opacity: 0.5;
+    grid-template-columns: repeat(14, 31px);
+}
+
+#golden-mountain.grid-container > .grid-item {
+    border: 1px dotted grey;
+    background-image: url("./assets/foret.png");
+    height: 20px;
+}
 
 /***********************************************/
 /* PLAYER CSS
@@ -96,7 +127,7 @@ body {
 
 #player.grid-container {
     grid-template-columns: repeat(2, 40px);
-    grid-template-rows: repeat(2, 40px);    
+    grid-template-rows: repeat(2, 40px);
 }
 
 #player.grid-container > .grid-item {
@@ -104,22 +135,20 @@ body {
     transition: background-image .25s ease-in-out;    
 }
 
+
 #player.grid-container > .grid-item.allowed {
-    border: 2px solid green
+    box-shadow: 0 0 10px green;
 }
 
 #player.grid-container > .grid-item.forbidden {
-    border: 2px solid red
+
+    box-shadow: 0 0 10px red;
 }
 
 
 /***********************************************/
 /* LEGEND CSS
 /***********************************************/
-#legend {
-    float: left;
-}
-
 #legend.grid-container {
     grid-template-columns: 40px 150px;
     grid-template-rows: repeat(8, 40px);    
