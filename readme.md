@@ -8,4 +8,4 @@ Do not use it for commercial purpose (or even with ads)
 
 # Current sate
 
-![Current state of the project](./readme/current_state.png)
+![Current state of the project](readme/current_state%231.png)
