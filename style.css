@@ -149,6 +149,12 @@ body {
 /***********************************************/
 /* LEGEND CSS
 /***********************************************/
+
+#legend {
+    position: absolute;
+    top:0;
+}
+
 #legend.grid-container {
     grid-template-columns: 40px 150px;
     grid-template-rows: repeat(8, 40px);    
